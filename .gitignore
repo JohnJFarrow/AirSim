@@ -47,6 +47,7 @@ UnrealPak/
 obj/
 .vs/
 .vscode/
+.vsconfig
 .visuallint/
 *.VC.opendb
 *.VC.db

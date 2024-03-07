@@ -23,7 +23,7 @@
 #include <exception>
 #include "common/common_utils/Utils.hpp"
 #include "Modules/ModuleManager.h"
-#include "ARFilter.h"
+#include "AssetRegistry/ARFilter.h"
 #include "AssetRegistry/AssetRegistryModule.h"
 #include "DetectionComponent.h"
 
@@ -489,6 +489,8 @@ std::vector<msr::airlib::MeshPositionVertexBuffersResponse> UAirBlueprintLib::Ge
             vertices.SetNum(vertex_count);
             FVector* data = vertices.GetData();
 
+            #if 0
+            // rendering disabled till RHILockVertexBuffer found, maybe DefaultGraphicsRHI=DefaultGraphicsRHI_DX12
             ENQUEUE_RENDER_COMMAND(GetVertexBuffer)
             (
                 [vertex_buffer, data](FRHICommandListImmediate& RHICmdList) {
@@ -496,6 +498,7 @@ std::vector<msr::airlib::MeshPositionVertexBuffersResponse> UAirBlueprintLib::Ge
                     memcpy(data, indices, vertex_buffer->VertexBufferRHI->GetSize());
                     RHIUnlockVertexBuffer(vertex_buffer->VertexBufferRHI);
                 });
+            #endif
 
 #if ((ENGINE_MAJOR_VERSION > 4) || (ENGINE_MAJOR_VERSION == 4 && ENGINE_MINOR_VERSION >= 27))
             FStaticMeshLODResources& lod = comp->GetStaticMesh()->GetRenderData()->LODResources[0];
@@ -511,6 +514,9 @@ std::vector<msr::airlib::MeshPositionVertexBuffersResponse> UAirBlueprintLib::Ge
 
                 uint16_t* data_ptr = indices_vec.GetData();
 
+            #if 0
+            // rendering disabled till RHILockVertexBuffer found, maybe DefaultGraphicsRHI=DefaultGraphicsRHI_DX12
+
                 ENQUEUE_RENDER_COMMAND(GetIndexBuffer)
                 (
                     [IndexBuffer, data_ptr](FRHICommandListImmediate& RHICmdList) {
@@ -518,6 +524,8 @@ std::vector<msr::airlib::MeshPositionVertexBuffersResponse> UAirBlueprintLib::Ge
                         memcpy(data_ptr, indices, IndexBuffer->IndexBufferRHI->GetSize());
                         RHIUnlockIndexBuffer(IndexBuffer->IndexBufferRHI);
                     });
+
+            #endif
 
                 //Need to force the render command to go through cause on the next iteration the buffer no longer exists
                 FlushRenderingCommands();
@@ -534,6 +542,9 @@ std::vector<msr::airlib::MeshPositionVertexBuffersResponse> UAirBlueprintLib::Ge
 
                 uint32_t* data_ptr = indices_vec.GetData();
 
+            #if 0
+            // rendering disabled till RHILockVertexBuffer found, maybe DefaultGraphicsRHI=DefaultGraphicsRHI_DX12
+
                 ENQUEUE_RENDER_COMMAND(GetIndexBuffer)
                 (
                     [IndexBuffer, data_ptr](FRHICommandListImmediate& RHICmdList) {
@@ -541,6 +552,7 @@ std::vector<msr::airlib::MeshPositionVertexBuffersResponse> UAirBlueprintLib::Ge
                         memcpy(data_ptr, indices, IndexBuffer->IndexBufferRHI->GetSize());
                         RHIUnlockIndexBuffer(IndexBuffer->IndexBufferRHI);
                     });
+            #endif
 
                 FlushRenderingCommands();
 

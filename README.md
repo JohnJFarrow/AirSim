@@ -160,3 +160,31 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 This project is released under the MIT License. Please review the [License file](LICENSE) for more details.
 
 
+## Building Airsim
+
+fork https://github.com/microsoft/AirSim to https://github.com/JohnJFarrow/AirSim 
+git clone https://github.com/JohnJFarrow/AirSim 
+cd AirSim
+build.cmd
+open Unreal\Environments\Blocks\Blocks.sln
+
+## Modifying for UE 5.3 
+
+- no need to update cars, will use Chaos vehices for that
+- should require no changes to the base Airsim lib, just to the Unreal wrapper
+- maybe update it to use same c++ version & toolchain as UE 5.3
+  - its building with C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Tools\MSVC\14.38.33130
+
+## make a new 5.3 branch
+
+- edit Unreal\Plugins\AirSim\AirSim.uplugin, remove reference to PhysXVehicles plugin
+- edit Unreal\Plugins\AirSim\Source\AirSim.Build.cs, remove reference to PhysXVehicles PhysXVehicleLib PhysX APEX modules
+changing
+```cpp
+  PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "ImageWrapper", "RenderCore", "RHI", "AssetRegistry", "PhysicsCore", "PhysXVehicles", "PhysXVehicleLib", "PhysX", "APEX", "Landscape", "CinematicCamera" });
+```
+to
+```
+  PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "ImageWrapper", "RenderCore", "RHI", "AssetRegistry", "PhysicsCore",  "Landscape", "CinematicCamera" });
+```
+

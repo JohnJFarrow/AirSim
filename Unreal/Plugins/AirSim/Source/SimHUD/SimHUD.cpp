@@ -4,7 +4,7 @@
 #include "Misc/FileHelper.h"
 
 #include "Vehicles/Multirotor/SimModeWorldMultiRotor.h"
-#include "Vehicles/Car/SimModeCar.h"
+// #include "Vehicles/Car/SimModeCar.h"
 #include "Vehicles/ComputerVision/SimModeComputerVision.h"
 
 #include "common/AirSimSettings.hpp"
@@ -251,7 +251,7 @@ std::string ASimHUD::getSimModeFromUser()
         return AirSimSettings::kSimModeTypeMultirotor;
     }
     else
-        return AirSimSettings::kSimModeTypeCar;
+        return AirSimSettings::kSimModeTypeMultirotor;
 }
 
 void ASimHUD::loadLevel()
@@ -271,10 +271,6 @@ void ASimHUD::createSimMode()
         simmode_ = this->GetWorld()->SpawnActor<ASimModeWorldMultiRotor>(FVector::ZeroVector,
                                                                          FRotator::ZeroRotator,
                                                                          simmode_spawn_params);
-    else if (simmode_name == AirSimSettings::kSimModeTypeCar)
-        simmode_ = this->GetWorld()->SpawnActor<ASimModeCar>(FVector::ZeroVector,
-                                                             FRotator::ZeroRotator,
-                                                             simmode_spawn_params);
     else if (simmode_name == AirSimSettings::kSimModeTypeComputerVision)
         simmode_ = this->GetWorld()->SpawnActor<ASimModeComputerVision>(FVector::ZeroVector,
                                                                         FRotator::ZeroRotator,

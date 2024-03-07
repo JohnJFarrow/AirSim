@@ -245,13 +245,15 @@ std::vector<ASimHUD::AirSimSettings::SubwindowSetting>& ASimHUD::getSubWindowSet
 
 std::string ASimHUD::getSimModeFromUser()
 {
-    if (EAppReturnType::No == UAirBlueprintLib::ShowMessage(EAppMsgType::YesNo,
+    // This was asking a question, without cars just return a response
+    return AirSimSettings::kSimModeTypeMultirotor;
+ /*   if (EAppReturnType::No == UAirBlueprintLib::ShowMessage(EAppMsgType::YesNo,
                                                             "Would you like to use car simulation? Choose no to use quadrotor simulation.",
                                                             "Choose Vehicle")) {
         return AirSimSettings::kSimModeTypeMultirotor;
     }
     else
-        return AirSimSettings::kSimModeTypeMultirotor;
+        return AirSimSettings::kSimModeTypeMultirotor;*/
 }
 
 void ASimHUD::loadLevel()

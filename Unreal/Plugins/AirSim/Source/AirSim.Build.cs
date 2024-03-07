@@ -87,10 +87,14 @@ public class AirSim : ModuleRules
         PublicDefinitions.Add("HMD_MODULE_INCLUDED=0");
 
         PublicIncludePaths.Add(Path.Combine(AirLibPath, "include"));
-        PublicIncludePaths.Add(Path.Combine(AirLibPath, "deps", "eigen3"));
+        // PublicIncludePaths.Add(Path.Combine(AirLibPath, "deps", "eigen3"));
         AddOSLibDependencies(Target);
 
+        AddEngineThirdPartyPrivateStaticDependencies(Target, "Eigen");
+
         SetupCompileMode(CompileMode.HeaderOnlyWithRpc, Target);
+
+        CppStandard = CppStandardVersion.Cpp20;
     }
 
     private void AddOSLibDependencies(ReadOnlyTargetRules Target)

@@ -162,27 +162,16 @@ IF NOT EXIST Unreal\Plugins\AirSim\Content\VehicleAdv\SUV\v1.2.0 (
 )
 
 REM //---------- get Eigen library ----------
-IF NOT EXIST AirLib\deps mkdir AirLib\deps
-IF NOT EXIST AirLib\deps\eigen3 (
-    if "%PWSHV7%" == "" (
-        %powershell% -command "& { [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; iwr https://gitlab.com/libeigen/eigen/-/archive/3.3.7/eigen-3.3.7.zip -OutFile eigen3.zip }"
-    ) else (
-        %powershell% -command "iwr https://gitlab.com/libeigen/eigen/-/archive/3.3.7/eigen-3.3.7.zip -OutFile eigen3.zip"
-    )
-    %powershell% -command "Expand-Archive -Path eigen3.zip -DestinationPath AirLib\deps"
-    %powershell% -command "Move-Item -Path AirLib\deps\eigen* -Destination AirLib\deps\del_eigen"
-    REM move AirLib\deps\eigen* AirLib\deps\del_eigen
-    mkdir AirLib\deps\eigen3
-    move AirLib\deps\del_eigen\Eigen AirLib\deps\eigen3\Eigen
-    rmdir /S /Q AirLib\deps\del_eigen
-    del eigen3.zip
-)
-IF NOT EXIST AirLib\deps\eigen3 goto :buildfailed
+REM now shipped with Unreal so don't download it
+REM in c:\Program Files\Epic Games\UE_5.3\Engine\Source\ThirdParty\Eigen
 
+set EIGENINC="c:\Program Files\Epic Games\UE_5.3\Engine\Source\ThirdParty\Eigen\"
+set IncludePath=%EIGENINC%;%IncludePath%
+set IncludePath="c:\Program Files\Epic Games\UE_5.3\Engine\Source\ThirdParty\Eigen\"
 
 REM //---------- now we have all dependencies to compile AirSim.sln which will also compile MavLinkCom ----------
 if "%buildMode%" == "" (
-msbuild -maxcpucount:12 /p:Platform=x64 /p:Configuration=Debug AirSim.sln
+msbuild -maxcpucount:12  /p:Platform=x64 /p:Configuration=Debug AirSim.sln
 if ERRORLEVEL 1 goto :buildfailed
 msbuild -maxcpucount:12 /p:Platform=x64 /p:Configuration=Release AirSim.sln 
 if ERRORLEVEL 1 goto :buildfailed
